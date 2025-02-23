@@ -5,6 +5,7 @@ from pydantic_core import PydanticCustomError
 from typing_extensions import Self
 from typing import Tuple, Optional
 from src.ad_insights_explorer_api.model import Post
+from src.ad_insights_explorer_api.repository import posts_cache
 from config import Config
 
 
@@ -41,10 +42,7 @@ posts_blueprint = Blueprint("posts", __name__)
 def posts():
     try:
         params = PostsQueryParams(**request.args.to_dict())
-
-        response = requests.get(url=Config.POSTS_URL)
-        response.raise_for_status()
-        posts = [Post(**post_data) for post_data in response.json()]
+        posts = posts_cache.get()
 
         if params.userId is not None:
             posts = list(filter(lambda post: post.user_id == params.userId, posts))
