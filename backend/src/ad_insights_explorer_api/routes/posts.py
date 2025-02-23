@@ -4,9 +4,8 @@ from pydantic import BaseModel, Field, ValidationError, model_validator
 from pydantic_core import PydanticCustomError
 from typing_extensions import Self
 from typing import Tuple, Optional
+from src.ad_insights_explorer_api.model import Post
 from config import Config
-
-posts_blueprint = Blueprint("posts", __name__)
 
 
 class PostsQueryParams(BaseModel):
@@ -36,6 +35,8 @@ class PostsQueryParams(BaseModel):
         end = start + page_size
         return start, end
 
+posts_blueprint = Blueprint("posts", __name__)
+
 @posts_blueprint.route("/")
 def posts():
     try:
@@ -43,17 +44,17 @@ def posts():
 
         response = requests.get(url=Config.POSTS_URL)
         response.raise_for_status()
-        posts_data = response.json()
+        posts = [Post(**post_data) for post_data in response.json()]
 
         if params.userId is not None:
-            posts_data = list(filter(lambda post: post["userId"] == params.userId, posts_data))
+            posts = list(filter(lambda post: post.user_id == params.userId, posts))
 
         start, end = params.paginate()
         if start is not None and end is not None:  
-            posts_data = posts_data[start:end]
+            posts = posts[start:end]
 
         return jsonify({
-            "posts": posts_data
+            "posts": [post.model_dump(by_alias=True) for post in posts]
         })
 
     except ValidationError as e:
