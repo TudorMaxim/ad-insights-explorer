@@ -19,7 +19,7 @@ def anomalies():
                 "shortTitlePosts": [
                     post.model_dump(by_alias=True) for post in with_title_too_short
                 ],
-                "duplicateTitles": [
+                "duplicateTitlePosts": [
                     dict(post=post.model_dump(by_alias=True), frequency=frequency)
                     for post, frequency in with_duplicate_titles
                 ],
