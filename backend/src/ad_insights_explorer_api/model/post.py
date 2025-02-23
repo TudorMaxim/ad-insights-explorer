@@ -1,5 +1,6 @@
-from pydantic import BaseModel, ConfigDict
 import humps
+from pydantic import BaseModel, ConfigDict
+
 
 def to_camel_case(s: str) -> str:
     return humps.camelize(s)

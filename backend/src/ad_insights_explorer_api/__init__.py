@@ -1,5 +1,7 @@
 from flask import Flask
+
 from config import config
+
 from .routes import register_api_routes
 
 

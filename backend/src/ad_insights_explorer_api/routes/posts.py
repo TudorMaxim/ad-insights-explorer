@@ -1,18 +1,24 @@
+from typing import Optional, Tuple
+
 import requests
 from flask import Blueprint, jsonify, request
 from pydantic import BaseModel, Field, ValidationError, model_validator
 from pydantic_core import PydanticCustomError
 from typing_extensions import Self
-from typing import Tuple, Optional
+
+from config import Config
 from src.ad_insights_explorer_api.model import Post
 from src.ad_insights_explorer_api.repository import posts_cache
-from config import Config
 
 
 class PostsQueryParams(BaseModel):
     userId: int | None = Field(None, gt=0, description="User ID must be greater then 0")
-    page: int | None = Field(None, ge=0, description="Page must be greater than or equal to 0")
-    pageSize: int | None = Field(None, gt=0, description="Page size must be greater than 0")
+    page: int | None = Field(
+        None, ge=0, description="Page must be greater than or equal to 0"
+    )
+    pageSize: int | None = Field(
+        None, gt=0, description="Page size must be greater than 0"
+    )
 
     @model_validator(mode="after")
     def check_page_size_requires_page(self) -> Self:
@@ -21,9 +27,9 @@ class PostsQueryParams(BaseModel):
                 "value_error",
                 "When pageSize is set, page must also be set",
                 {
-                    'page': self.page,
-                    'pageSize': self.pageSize,
-                }
+                    "page": self.page,
+                    "pageSize": self.pageSize,
+                },
             )
         return self
 
@@ -36,7 +42,9 @@ class PostsQueryParams(BaseModel):
         end = start + page_size
         return start, end
 
+
 posts_blueprint = Blueprint("posts", __name__)
+
 
 @posts_blueprint.route("/")
 def posts():
@@ -48,15 +56,13 @@ def posts():
             posts = list(filter(lambda post: post.user_id == params.userId, posts))
 
         start, end = params.paginate()
-        if start is not None and end is not None:  
+        if start is not None and end is not None:
             posts = posts[start:end]
 
-        return jsonify({
-            "posts": [post.model_dump(by_alias=True) for post in posts]
-        })
+        return jsonify({"posts": [post.model_dump(by_alias=True) for post in posts]})
 
     except ValidationError as e:
-        return jsonify({ "error": e.errors() }), 400
+        return jsonify({"error": e.errors()}), 400
 
     except requests.exceptions.RequestException as e:
-        return jsonify({ "error": str(e)}), 500
+        return jsonify({"error": str(e)}), 500

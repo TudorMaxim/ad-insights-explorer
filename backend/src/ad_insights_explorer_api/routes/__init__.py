@@ -1,6 +1,7 @@
-from flask import Flask, Blueprint
-from .posts import posts_blueprint
+from flask import Blueprint, Flask
+
 from .anomalies import anomalies_blueprint
+from .posts import posts_blueprint
 from .summary import summary_blueprint
 
 
