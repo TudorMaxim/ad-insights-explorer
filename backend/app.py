@@ -12,5 +12,4 @@ def create_app():
 
 if __name__ == '__main__':
     ad_insights_explorer_app = create_app()
-    print(ad_insights_explorer_app.url_map)
     ad_insights_explorer_app.run(debug=True)
