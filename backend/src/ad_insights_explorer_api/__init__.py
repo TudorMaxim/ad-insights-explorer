@@ -1,6 +1,6 @@
 from flask import Flask
 from config import config
-from routes import register_api_routes
+from .routes import register_api_routes
 
 
 def create_app():
@@ -8,8 +8,3 @@ def create_app():
     app.config.from_object(config)
     register_api_routes(app)
     return app
-
-
-if __name__ == '__main__':
-    ad_insights_explorer_app = create_app()
-    ad_insights_explorer_app.run(debug=True)
