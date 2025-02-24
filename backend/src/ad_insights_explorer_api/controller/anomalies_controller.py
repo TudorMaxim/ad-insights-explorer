@@ -1,19 +1,23 @@
-from typing import Dict, List, Tuple
+from typing import List, Tuple
 
 from config import Config
 from src.ad_insights_explorer_api.model import Post
+from src.ad_insights_explorer_api.repository import PostsCache
+
+from .base_controller import BaseController
 
 
-class AnomaliesController:
+class AnomaliesController(BaseController):
     """
-    Controller class which processes the titles of posts and detects anomalies
+    Controller class which processes the titles of posts and detects anomalies.
 
     Attributes:
-        posts (List[Post]): Stores the list of posts.
+        posts_cache (PostsCache): chache used to retrieve posts.
     """
 
-    def __init__(self, posts: List[Post]):
-        self.posts = posts
+    def __init__(self, posts_cache: PostsCache):
+        super().__init__()
+        self.__posts_cache = posts_cache
 
     def title_too_short(self) -> List[Post]:
         """
@@ -22,10 +26,9 @@ class AnomaliesController:
         Returns:
             List[Post]: a list of posts having the title too short.
         """
+        posts = self.__posts_cache.get()
         return list(
-            filter(
-                lambda post: len(post.title) < Config.POSTS_MIN_TITLE_LENGTH, self.posts
-            )
+            filter(lambda post: len(post.title) < Config.POSTS_MIN_TITLE_LENGTH, posts)
         )
 
     def duplicate_titles(self) -> List[Tuple[Post, int]]:
@@ -35,19 +38,14 @@ class AnomaliesController:
         Returns:
             List[Tuple[Post, int]]: a list of duplicate posts including the number of times the same title was used.
         """
-        frequency: Dict[Tuple[int, str], int] = {}
-        for post in self.posts:
-            if frequency.get((post.user_id, post.title)):
-                frequency[(post.user_id, post.title)] += 1
-            else:
-                frequency[(post.user_id, post.title)] = 1
-
+        posts = self.__posts_cache.get()
+        frequency = self._get_frequency_dict(
+            posts, key=lambda post: (post.user_id, post.title)
+        )
         return list(
             map(
                 lambda post: (post, frequency[(post.user_id, post.title)]),
-                filter(
-                    lambda post: frequency[(post.user_id, post.title)] > 1, self.posts
-                ),
+                filter(lambda post: frequency[(post.user_id, post.title)] > 1, posts),
             )
         )
 

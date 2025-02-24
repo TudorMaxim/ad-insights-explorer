@@ -10,8 +10,7 @@ summary_blueprint = Blueprint("summary", __name__)
 @summary_blueprint.route("/")
 def summary():
     try:
-        posts = posts_cache.get()
-        summary_controller = SummaryController(posts)
+        summary_controller = SummaryController(posts_cache)
         most_frequent_words = summary_controller.most_frequent_words()
         users_with_most_unique_words = summary_controller.users_with_most_unique_words()
         top_3 = users_with_most_unique_words[:3]

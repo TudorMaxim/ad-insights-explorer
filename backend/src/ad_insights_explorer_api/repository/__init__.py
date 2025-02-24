@@ -1,1 +1,1 @@
-from .posts_cache import posts_cache
+from .posts_cache import PostsCache, posts_cache

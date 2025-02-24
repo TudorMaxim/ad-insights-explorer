@@ -1,20 +1,23 @@
 import functools
 import re
-from typing import Dict, List, Tuple
+from typing import List, Tuple
 
-from src.ad_insights_explorer_api.model import Post
+from src.ad_insights_explorer_api.repository import PostsCache
+
+from .base_controller import BaseController
 
 
-class SummaryController:
+class SummaryController(BaseController):
     """
     Controller class which processes the words used in posts
 
     Attributes:
-        posts (List[Post]): Stores the list of posts.
+        posts_cache (PostsCache): chache used to retrieve posts.
     """
 
-    def __init__(self, posts: List[Post]):
-        self.posts = posts
+    def __init__(self, posts_cache: PostsCache):
+        super().__init__()
+        self.__posts_cache = posts_cache
 
     def most_frequent_words(self) -> List[Tuple[str, int]]:
         """
@@ -23,7 +26,8 @@ class SummaryController:
         Returns:
             List[Tuple[str, int]]: a list of words and their frequencies sorted in decreasing order.
         """
-        titles = list(map(lambda post: post.title, self.posts))
+        posts = self.__posts_cache.get()
+        titles = list(map(lambda post: post.title, posts))
         return self.__compute_word_frequencies(titles, reverse=True)
 
     def users_with_most_unique_words(self) -> List[Tuple[int, int]]:
@@ -33,12 +37,7 @@ class SummaryController:
         Returns:
             List[Tuple[int, int]]: a list of user IDs and their numbers of unique words sorted in decreasing order.
         """
-        user_posts: Dict[int, List[Post]] = {}
-        for post in self.posts:
-            if user_posts.get(post.user_id):
-                user_posts[post.user_id].append(post)
-            else:
-                user_posts[post.user_id] = [post]
+        user_posts = self.__posts_cache.get_user_posts_dict()
 
         res: List[Tuple[int, int]] = []
         for user_id, posts in user_posts.items():
@@ -65,13 +64,7 @@ class SummaryController:
             titles,
             [],
         )
-        frequency: Dict[str, int] = {}
-        for word in words:
-            if frequency.get(word):
-                frequency[word] += 1
-            else:
-                frequency[word] = 1
-
+        frequency = self._get_frequency_dict(words, key=lambda word: word)
         res = []
         for key, value in frequency.items():
             res.append((key, value))

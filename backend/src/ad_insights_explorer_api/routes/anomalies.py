@@ -10,8 +10,7 @@ anomalies_blueprint = Blueprint("anomalies", __name__)
 @anomalies_blueprint.route("/")
 def anomalies():
     try:
-        posts = posts_cache.get()
-        anomalies_controller = AnomaliesController(posts)
+        anomalies_controller = AnomaliesController(posts_cache)
         with_title_too_short = anomalies_controller.title_too_short()
         with_duplicate_titles = anomalies_controller.duplicate_titles()
         return jsonify(
