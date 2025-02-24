@@ -1,0 +1,11 @@
+.loadingContainer {
+    margin: 2rem;
+    display: grid;
+    place-items: center;
+    height: 85vh;
+}
+
+.spinner {
+    width: 5rem !important;
+    height: 5rem !important;
+}
