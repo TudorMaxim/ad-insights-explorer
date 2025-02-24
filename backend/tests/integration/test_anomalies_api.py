@@ -24,3 +24,11 @@ def test_anomalies_duplicate_titles(client, mock_api_request):
     assert len(duplicates) == 2
     assert duplicates[0]["post"]["title"] == duplicates[1]["post"]["title"]
     assert duplicates[0]["post"]["userId"] == duplicates[1]["post"]["userId"]
+    assert duplicates[0]["post"]["userId"] == 2
+
+
+def test_anomalies_similar_titles(client, mock_api_request):
+    mock_api_request(Config.POSTS_URL, ".\\tests\\mocks\\mock_posts.json")
+    response = client.get("/api/anomalies/")
+    data = response.get_json()
+    assert response.status_code == 200

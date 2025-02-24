@@ -13,6 +13,7 @@ def anomalies():
         anomalies_controller = AnomaliesController(posts_cache)
         with_title_too_short = anomalies_controller.title_too_short()
         with_duplicate_titles = anomalies_controller.duplicate_titles()
+        users_too_many_similar_titles = anomalies_controller.too_many_similar_titles()
         return jsonify(
             {
                 "shortTitlePosts": [
@@ -22,6 +23,7 @@ def anomalies():
                     dict(post=post.model_dump(by_alias=True), frequency=frequency)
                     for post, frequency in with_duplicate_titles
                 ],
+                "usersTooManySimilarTitles": users_too_many_similar_titles,
             }
         )
 

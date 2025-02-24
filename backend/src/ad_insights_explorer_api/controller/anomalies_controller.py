@@ -50,4 +50,53 @@ class AnomaliesController(BaseController):
         )
 
     def too_many_similar_titles(self) -> List[int]:
-        pass
+        """
+        Function that checks for users with similar titles in their posts.
+        Two titles are considered similar if the number of common words they use exceed a threshold.
+
+        Returns:
+            List[int]: a list of user IDs that have similar titles for their posts.
+        """
+        user_posts = self.__posts_cache.get_user_posts_dict()
+        res = []
+        for user_id, posts in user_posts.items():
+            if self.__has_too_many_similar_titles(posts):
+                res.append(user_id)
+        return res
+
+    def __has_too_many_similar_titles(self, posts: List[Post]):
+        """
+        Function that checks if the posts of an user have similar titles.
+        Two titles are considered similar if the number of common words they use exceeds a third of the averege number of words in a title.
+        Each word is mapped to the number of titles using it and the number of common words is incremented every time a word is found in more titles (configurable threshold).
+
+        Arguments:
+            posts (List[Post]): A list containing the posts of a user.
+
+        Returns:
+            List[int]: a list of user IDs that have similar titles for their posts.
+        """
+        titles = list(map(lambda post: post.title, posts))
+        threshold = (
+            self._avegare(list(map(lambda title: len(self._split(title)), titles))) // 3
+        )
+        all_words = self._split_unique_per_item(titles)
+        all_words_hash = self._get_frequency_dict(all_words, key=lambda word: word)
+        similar_count = 0
+
+        for title in titles:
+            common_words_count = 0
+
+            for word in self._split_unique(title):
+                if (
+                    all_words_hash[word] > Config.USER_POSTS_SIMILAR_TITLE_THRESHOLD
+                ):  # if word appears in at least 5 more titles
+                    common_words_count += 1
+
+            if common_words_count > threshold:
+                similar_count += 1
+
+            if similar_count >= Config.USER_POSTS_SIMILAR_TITLE_THRESHOLD:
+                return True
+
+        return False

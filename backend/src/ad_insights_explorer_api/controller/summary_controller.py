@@ -1,5 +1,3 @@
-import functools
-import re
 from typing import List, Tuple
 
 from src.ad_insights_explorer_api.repository import PostsCache
@@ -58,12 +56,7 @@ class SummaryController(BaseController):
             titles (List[str]): list of titles from which words will be extracted.
             reverse (bool): flag to decide if the result should be sorted in ascending or descending order.
         """
-        separators = r"[ ,:;.?!\n]"
-        words = functools.reduce(
-            lambda acc, title: acc + list(filter(None, re.split(separators, title))),
-            titles,
-            [],
-        )
+        words = self._split_multiple(titles)
         frequency = self._get_frequency_dict(words, key=lambda word: word)
         res = []
         for key, value in frequency.items():
