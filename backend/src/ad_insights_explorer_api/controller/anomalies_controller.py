@@ -5,6 +5,13 @@ from src.ad_insights_explorer_api.model import Post
 
 
 class AnomaliesController:
+    """
+    Controller class which processes the titles of posts and detects anomalies
+
+    Attributes:
+        posts (List[Post]): Stores the list of posts.
+    """
+
     def __init__(self, posts: List[Post]):
         self.posts = posts
 
