@@ -10,17 +10,21 @@ export type Post = {
   body: string;
 };
 
-type WordFrequency = {
+export type TagFrequency = {
   count: number;
   word: string;
 };
 
-type UserUniqueWords = {
+export type UserUniqueWords = {
   userId: number;
   count: number;
 };
 
+export type PodiumUser = UserUniqueWords & {
+  name: string;
+};
+
 export type Summary = {
-  mostFrequentWords: WordFrequency[];
+  mostFrequentWords: TagFrequency[];
   usersWithMostUniqueWords: UserUniqueWords[];
 };

@@ -1,3 +1,16 @@
-.container {
-    margin: 2rem;
+.summaryContainer {
+    padding: 32px;
+    border: solid rgb(0 0 0 / 18%);
+    border-width: 0 1px 1px 1px;
+    border-radius: 0 0 10px 10px;
+    margin-bottom: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
 }
+
+/* @media (max-width: 800px) {
+    .summaryContainer {
+        flex-direction: column;
+    }
+} */
