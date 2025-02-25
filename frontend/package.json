@@ -12,6 +12,7 @@
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "bootstrap": "^5.3.3",
+    "classnames": "^2.5.1",
     "react": "^19.0.0",
     "react-avatar": "^5.0.3",
     "react-bootstrap": "^2.10.9",

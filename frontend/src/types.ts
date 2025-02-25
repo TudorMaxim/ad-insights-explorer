@@ -10,6 +10,17 @@ export type Post = {
   body: string;
 };
 
+export type FetchPostsParams = {
+  userId: string;
+  page: string;
+  pageSize: string;
+};
+
+export type PostsReponse = {
+  posts: Post[];
+  totalPages: number;
+};
+
 export type TagFrequency = {
   count: number;
   word: string;

@@ -1,10 +1,10 @@
-import type { User, Post, Summary } from '../types';
-
-type FetchPostsParams = {
-  userId?: number | null;
-  page?: number | null;
-  pageSize?: number | null;
-};
+import type {
+  User,
+  Post,
+  Summary,
+  PostsReponse,
+  FetchPostsParams,
+} from '../types';
 
 class Fetcher {
   async fetchUsers(): Promise<User[]> {
@@ -29,8 +29,35 @@ class Fetcher {
     userId,
     page,
     pageSize,
-  }: FetchPostsParams): Promise<Post[]> {
-    return []; // TODO: implement this
+  }: FetchPostsParams): Promise<PostsReponse> {
+    const urlParams: string = this.buildUrlParams({ userId, page, pageSize });
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URL}/posts/${urlParams}`
+    );
+    if (!response.ok) {
+      throw new Error('Error: we could not access the posts data.');
+    }
+    const data: PostsReponse = await response.json();
+    return data;
+  }
+
+  buildUrlParams(params: FetchPostsParams): string {
+    let urlParams = '';
+    let separator = '';
+    const filteredParams = Object.fromEntries(
+      Object.entries(params).filter(([_, value]) => value !== '')
+    );
+
+    if (Object.keys(filteredParams).length == 0) {
+      return urlParams;
+    }
+
+    urlParams += '?';
+    for (const key in filteredParams) {
+      urlParams += separator + `${key}=${filteredParams[key]}`;
+      separator = '&';
+    }
+    return urlParams;
   }
 }
 

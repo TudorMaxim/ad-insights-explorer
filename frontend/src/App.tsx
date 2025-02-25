@@ -19,12 +19,12 @@ function App() {
       </header>
       <main>
         <Container className={styles.mainContainer}>
-          <Tabs defaultActiveKey="summary" id="dasboard-tabs">
-            <Tab eventKey="summary" title="Summary">
-              <SummaryPanel users={users} />
-            </Tab>
+          <Tabs defaultActiveKey="anomalies" id="dasboard-tabs">
             <Tab eventKey="anomalies" title="Anomalies">
               <AnomaliesTable />
+            </Tab>
+            <Tab eventKey="summary" title="Summary">
+              <SummaryPanel users={users} />
             </Tab>
           </Tabs>
         </Container>
