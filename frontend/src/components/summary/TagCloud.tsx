@@ -1,6 +1,6 @@
 import React from 'react';
-import { TagFrequency } from '../types';
-import styles from '../styles/TagCloud.module.css';
+import { TagFrequency } from '../../types';
+import styles from './styles/TagCloud.module.css';
 
 type TagCloudProps = {
   tags: TagFrequency[];

@@ -1,11 +1,11 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
-import { User } from '../types';
+import { User } from '../../types';
 import TagCloud from './TagCloud';
 import Podium from './Podium';
-import LoadingSpinner from './LoadingSpinner';
-import { useFetchSummary } from '../hooks';
-import styles from '../styles/SummaryPanel.module.css';
+import LoadingSpinner from '../common/LoadingSpinner';
+import { useFetchSummary } from '../../hooks';
+import styles from './styles/SummaryPage.module.css';
 
 type SummaryPanelProps = {
   users: User[];

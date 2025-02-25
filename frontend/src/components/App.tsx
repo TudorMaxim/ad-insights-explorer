@@ -1,8 +1,9 @@
 import React from 'react';
 import { Tabs, Tab, Container } from 'react-bootstrap';
-import { AnomaliesTable, SummaryPanel } from './components';
-import { useFetchUsers } from './hooks';
-import ProtectedMediaIcon from './assets/ProtectedMediaIcon.webp';
+import AnomaliesPage from './anomalies/AnomaliesPage';
+import SummaryPage from './summary/SummaryPage';
+import ProtectedMediaIcon from '../assets/ProtectedMediaIcon.webp';
+import { useFetchUsers } from '../hooks';
 import styles from './styles/App.module.css';
 
 function App() {
@@ -21,10 +22,10 @@ function App() {
         <Container className={styles.mainContainer}>
           <Tabs defaultActiveKey="anomalies" id="dasboard-tabs">
             <Tab eventKey="anomalies" title="Anomalies">
-              <AnomaliesTable />
+              <AnomaliesPage />
             </Tab>
             <Tab eventKey="summary" title="Summary">
-              <SummaryPanel users={users} />
+              <SummaryPage users={users} />
             </Tab>
           </Tabs>
         </Container>

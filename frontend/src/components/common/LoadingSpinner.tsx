@@ -1,6 +1,6 @@
 import React from 'react';
 import { Spinner } from 'react-bootstrap';
-import styles from '../styles/LoadingSpinner.module.css';
+import styles from './styles/LoadingSpinner.module.css';
 
 const LoadingSpinner: React.FC = () => (
   <div className={styles.loadingContainer}>

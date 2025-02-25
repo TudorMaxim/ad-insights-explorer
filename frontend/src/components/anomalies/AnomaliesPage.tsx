@@ -1,21 +1,14 @@
 import React from 'react';
 import classNames from 'classnames';
-import {
-  Table,
-  Form,
-  Button,
-  InputGroup,
-  Dropdown,
-  Stack,
-} from 'react-bootstrap';
-import LoadingSpinner from './LoadingSpinner';
-import { useFetchPosts } from '../hooks';
-import styles from '../styles/AnomaliesTable.module.css';
+import { Table, Form, Button, InputGroup, Stack } from 'react-bootstrap';
+import LoadingSpinner from '../common/LoadingSpinner';
+import { useFetchPosts } from '../../hooks';
+import styles from './styles/AnomaliesPage.module.css';
 
-const AnomaliesTable = () => {
+const AnomaliesPage = () => {
   const [userId, setUserId] = React.useState<string>('');
-  const [page, setPage] = React.useState<string>('');
-  const [pageSize, setPageSize] = React.useState<string>('');
+  const [page, setPage] = React.useState<string>('1');
+  const [pageSize, setPageSize] = React.useState<string>('10');
   const [settingsVisible, setSettingsVisible] = React.useState(false);
 
   const { posts, totalPages, loading } = useFetchPosts({
@@ -127,4 +120,4 @@ const AnomaliesTable = () => {
   );
 };
 
-export default AnomaliesTable;
+export default AnomaliesPage;

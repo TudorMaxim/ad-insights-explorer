@@ -1,6 +1,6 @@
 import React from 'react';
-import type { User, UserUniqueWords, PodiumUser } from '../types';
-import styles from '../styles/Podium.module.css';
+import type { User, UserUniqueWords, PodiumUser } from '../../types';
+import styles from './styles/Podium.module.css';
 
 const getPodium = (users: User[], usersUniqueWords: UserUniqueWords[]) => {
   const podium: PodiumUser[] = [];
