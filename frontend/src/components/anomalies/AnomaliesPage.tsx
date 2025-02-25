@@ -1,10 +1,11 @@
 import React from 'react';
-import { Table } from 'react-bootstrap';
+import { Table, Badge } from 'react-bootstrap';
 import AnomaliesPanel from './AnomaliesPanel';
 import Pagination from './Pagination';
 import LoadingSpinner from '../common/LoadingSpinner';
-import { useFetchPosts } from '../../hooks';
+import { useFetchPosts, useFetchAnomalies } from '../../hooks';
 import styles from './styles/AnomaliesPage.module.css';
+import flagPost from '../../utils/flagPost';
 
 const AnomaliesPage = () => {
   const [userId, setUserId] = React.useState<string>('');
@@ -16,6 +17,7 @@ const AnomaliesPage = () => {
     page,
     pageSize,
   });
+  const { anomalies } = useFetchAnomalies();
 
   return (
     <div className={styles.anomaliesContainer}>
@@ -34,16 +36,28 @@ const AnomaliesPage = () => {
             <th> User ID </th>
             <th> Post ID </th>
             <th> Title </th>
+            <th> Anomalies </th>
           </tr>
         </thead>
         <tbody>
-          {posts.map(({ userId, id, title }) => (
-            <tr key={`anomalies-table-post-${id}`}>
-              <td> {userId} </td>
-              <td> {id} </td>
-              <td> {title} </td>
-            </tr>
-          ))}
+          {posts.map((post) => {
+            const reasons = flagPost(post, anomalies);
+            return (
+              <tr key={`anomalies-table-post-${post.id}`}>
+                <td> {post.userId} </td>
+                <td> {post.id} </td>
+                <td> {post.title} </td>
+                <td>
+                  {reasons.map((reason, idx) => (
+                    <Badge bg="danger" key={`post-${post.id}-reason-${idx}`}>
+                      {' '}
+                      {reason}{' '}
+                    </Badge>
+                  ))}
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </Table>
       <Pagination totalPages={totalPages} page={page} setPage={setPage} />

@@ -39,3 +39,12 @@ export type Summary = {
   mostFrequentWords: TagFrequency[];
   usersWithMostUniqueWords: UserUniqueWords[];
 };
+
+export type Anomalies = {
+  duplicateTitlePosts: Post[];
+  shortTitlePosts: Post[];
+  usersTooManySimilarTitles: {
+    userId: number;
+    posts: Post[];
+  }[];
+};

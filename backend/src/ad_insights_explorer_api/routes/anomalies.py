@@ -23,7 +23,13 @@ def anomalies():
                     dict(post=post.model_dump(by_alias=True), frequency=frequency)
                     for post, frequency in with_duplicate_titles
                 ],
-                "usersTooManySimilarTitles": users_too_many_similar_titles,
+                "usersTooManySimilarTitles": [
+                    dict(
+                        userId=user_id,
+                        posts=[post.model_dump(by_alias=True) for post in posts],
+                    )
+                    for user_id, posts in users_too_many_similar_titles
+                ],
             }
         )
 

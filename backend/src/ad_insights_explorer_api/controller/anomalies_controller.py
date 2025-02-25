@@ -49,22 +49,23 @@ class AnomaliesController(BaseController):
             )
         )
 
-    def too_many_similar_titles(self) -> List[int]:
+    def too_many_similar_titles(self) -> List[Tuple[int, List[Post]]]:
         """
         Function that checks for users with similar titles in their posts.
         Two titles are considered similar if the number of common words they use exceed a threshold.
 
         Returns:
-            List[int]: a list of user IDs that have similar titles for their posts.
+            List[Tuple[int, List[Post]]]: a list of user IDs that have similar titles for their posts and the corresponding posts.
         """
         user_posts = self.__posts_cache.get_user_posts_dict()
         res = []
         for user_id, posts in user_posts.items():
-            if self.__has_too_many_similar_titles(posts):
-                res.append(user_id)
+            similar_posts = self.__get_similar_posts(posts)
+            if len(similar_posts) >= Config.USER_POSTS_SIMILAR_TITLE_THRESHOLD:
+                res.append((user_id, similar_posts))
         return res
 
-    def __has_too_many_similar_titles(self, posts: List[Post]):
+    def __get_similar_posts(self, posts: List[Post]) -> List[Post]:
         """
         Function that checks if the posts of an user have similar titles.
         Two titles are considered similar if the number of common words they use exceeds a third of the averege number of words in a title.
@@ -74,7 +75,7 @@ class AnomaliesController(BaseController):
             posts (List[Post]): A list containing the posts of a user.
 
         Returns:
-            List[int]: a list of user IDs that have similar titles for their posts.
+            List[Post]: a list of similar posts.
         """
         titles = list(map(lambda post: post.title, posts))
         threshold = (
@@ -82,21 +83,18 @@ class AnomaliesController(BaseController):
         )
         all_words = self._split_unique_per_item(titles)
         all_words_hash = self._get_frequency_dict(all_words, key=lambda word: word)
-        similar_count = 0
+        similar_posts = []
 
-        for title in titles:
+        for post in posts:
             common_words_count = 0
 
-            for word in self._split_unique(title):
+            for word in self._split_unique(post.title):
                 if (
                     all_words_hash[word] > Config.USER_POSTS_SIMILAR_TITLE_THRESHOLD
                 ):  # if word appears in at least 5 more titles
                     common_words_count += 1
 
             if common_words_count > threshold:
-                similar_count += 1
+                similar_posts.append(post)
 
-            if similar_count >= Config.USER_POSTS_SIMILAR_TITLE_THRESHOLD:
-                return True
-
-        return False
+        return similar_posts

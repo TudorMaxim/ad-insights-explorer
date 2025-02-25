@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_cors import CORS
+
 from config import config
 
 from .routes import register_api_routes

@@ -1,7 +1,7 @@
 import type {
   User,
-  Post,
   Summary,
+  Anomalies,
   PostsReponse,
   FetchPostsParams,
 } from '../types';
@@ -13,6 +13,15 @@ class Fetcher {
       throw new Error('Error: we could not access the users data.');
     }
     const data: User[] = await response.json();
+    return data;
+  }
+
+  async fetchAnomalies(): Promise<Anomalies> {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/anomalies/`);
+    if (!response.ok) {
+      throw new Error('Error: we could not access the anomalies data.');
+    }
+    const data: Anomalies = await response.json();
     return data;
   }
 
