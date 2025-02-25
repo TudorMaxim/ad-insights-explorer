@@ -1,6 +1,7 @@
 import React from 'react';
-import classNames from 'classnames';
-import { Table, Form, Button, InputGroup, Stack } from 'react-bootstrap';
+import { Table } from 'react-bootstrap';
+import AnomaliesPanel from './AnomaliesPanel';
+import Pagination from './Pagination';
 import LoadingSpinner from '../common/LoadingSpinner';
 import { useFetchPosts } from '../../hooks';
 import styles from './styles/AnomaliesPage.module.css';
@@ -9,7 +10,6 @@ const AnomaliesPage = () => {
   const [userId, setUserId] = React.useState<string>('');
   const [page, setPage] = React.useState<string>('1');
   const [pageSize, setPageSize] = React.useState<string>('10');
-  const [settingsVisible, setSettingsVisible] = React.useState(false);
 
   const { posts, totalPages, loading } = useFetchPosts({
     userId,
@@ -19,65 +19,15 @@ const AnomaliesPage = () => {
 
   return (
     <div className={styles.anomaliesContainer}>
-      <div className={styles.anomaliesPanel}>
-        <InputGroup className={classNames('mb-3', styles.search)}>
-          <Form.Control
-            type="number"
-            min={1}
-            placeholder="Search by user ID"
-            value={userId}
-            onChange={(e) => setUserId(e.target.value)}
-          />
-          <InputGroup.Text>
-            <i className="fa fa-search"></i>
-          </InputGroup.Text>
-        </InputGroup>
+      <AnomaliesPanel
+        userId={userId}
+        setUserId={setUserId}
+        page={page}
+        setPage={setPage}
+        pageSize={pageSize}
+        setPageSize={setPageSize}
+      />
 
-        <Button
-          variant="outline-secondary"
-          className="mb-3"
-          onClick={() => setSettingsVisible(!settingsVisible)}
-        >
-          <span> Settings </span>
-          <i className="fa fa-cog"></i>
-        </Button>
-      </div>
-      {settingsVisible && (
-        <Stack className={styles.settings}>
-          <span
-            className={styles.close}
-            onClick={() => setSettingsVisible(false)}
-          >
-            <i className="fa fa-close"></i>
-          </span>
-          <InputGroup className={classNames('mb-3', styles.pageSettings)}>
-            <InputGroup.Text>Page</InputGroup.Text>
-            <Form.Control
-              type="number"
-              min={1}
-              placeholder="Check for a specific page"
-              value={page}
-              onChange={(e) => {
-                setPage(e.target.value);
-                if (e.target.value === '') {
-                  setPageSize('');
-                }
-              }}
-            />
-          </InputGroup>
-          <InputGroup className={classNames('mb-3', styles.pageSettings)}>
-            <InputGroup.Text>Page Size</InputGroup.Text>
-            <Form.Control
-              type="number"
-              min={1}
-              placeholder="Change page size"
-              value={pageSize}
-              disabled={page === ''}
-              onChange={(e) => setPageSize(e.target.value)}
-            />
-          </InputGroup>
-        </Stack>
-      )}
       <Table>
         <thead>
           <tr>
@@ -96,26 +46,7 @@ const AnomaliesPage = () => {
           ))}
         </tbody>
       </Table>
-
-      <div className="d-flex justify-content-between align-items-center">
-        <Button
-          variant="outline-secondary"
-          disabled={page === '' || page == '1'}
-          onClick={() => setPage((prev) => `${parseInt(prev) - 1}`)}
-        >
-          <i className="fa fa-arrow-left" aria-hidden="true"></i>Previous
-        </Button>
-        <span>
-          Page {page || '1'} of {totalPages}{' '}
-        </span>
-        <Button
-          variant="outline-secondary"
-          disabled={parseInt(page || '1') === totalPages}
-          onClick={() => setPage((prev) => `${parseInt(prev || '1') + 1}`)}
-        >
-          Next <i className="fa fa-arrow-right" aria-hidden="true"></i>
-        </Button>
-      </div>
+      <Pagination totalPages={totalPages} page={page} setPage={setPage} />
     </div>
   );
 };

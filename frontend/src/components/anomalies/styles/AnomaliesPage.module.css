@@ -5,32 +5,3 @@
     border-radius: 0 0 10px 10px;
     margin-bottom: 32px;
 }
-
-.search {
-    max-width: 210px;
-}
-
-.close {
-    position: absolute;
-    right: 16px;
-    top: 2px;
-    cursor: pointer;
-
-}
-
-.settings {
-    position: absolute;
-    right: 130px;
-    margin: 0 12px;
-    background: #f7f7f7;
-    padding: 24px 16px 0 16px;
-    border-radius: 4px;
-}
-.pageSettings {
-    max-width: 275px;
-}
-
-.anomaliesPanel {
-    display: flex;
-    justify-content: space-between;
-}
