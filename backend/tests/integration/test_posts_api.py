@@ -28,11 +28,11 @@ def test_fetch_by_user_id(user_id, client, mock_api_request):
 @pytest.mark.parametrize(
     "page,page_size,expected_post_ids",
     [
-        (0, 5, [1, 2, 3, 4, 5]),
-        (1, 5, [6, 7, 8, 9, 10]),
-        (2, 5, []),
-        (0, 20, list(range(1, 11))),
-        (2, 4, [9, 10]),
+        (1, 5, [1, 2, 3, 4, 5]),
+        (2, 5, [6, 7, 8, 9, 10]),
+        (3, 5, []),
+        (1, 20, list(range(1, 11))),
+        (3, 4, [9, 10]),
     ],
 )
 def test_paginated_response(
