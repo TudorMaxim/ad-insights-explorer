@@ -1,23 +1,34 @@
 import React from 'react';
-import { Table, Badge } from 'react-bootstrap';
+import { Table, Badge, Alert } from 'react-bootstrap';
 import AnomaliesPanel from './AnomaliesPanel';
+import AnomaliesTable from './AnomaliesTable';
 import Pagination from './Pagination';
 import LoadingSpinner from '../common/LoadingSpinner';
-import { useFetchPosts, useFetchAnomalies } from '../../hooks';
+import { useFetchPosts } from '../../hooks';
 import styles from './styles/AnomaliesPage.module.css';
-import flagPost from '../../utils/flagPost';
 
 const AnomaliesPage = () => {
   const [userId, setUserId] = React.useState<string>('');
   const [page, setPage] = React.useState<string>('1');
   const [pageSize, setPageSize] = React.useState<string>('10');
 
-  const { posts, totalPages, loading } = useFetchPosts({
+  const { posts, totalPages, loading, error } = useFetchPosts({
     userId,
     page,
     pageSize,
   });
-  const { anomalies } = useFetchAnomalies();
+
+  if (posts.length === 0 && loading) {
+    return <LoadingSpinner />;
+  }
+
+  if (error) {
+    return (
+      <Alert variant="danger" className="mb-3 mt-3">
+        {error}
+      </Alert>
+    );
+  }
 
   return (
     <div className={styles.anomaliesContainer}>
@@ -29,37 +40,7 @@ const AnomaliesPage = () => {
         pageSize={pageSize}
         setPageSize={setPageSize}
       />
-
-      <Table>
-        <thead>
-          <tr>
-            <th> User ID </th>
-            <th> Post ID </th>
-            <th> Title </th>
-            <th> Anomalies </th>
-          </tr>
-        </thead>
-        <tbody>
-          {posts.map((post) => {
-            const reasons = flagPost(post, anomalies);
-            return (
-              <tr key={`anomalies-table-post-${post.id}`}>
-                <td> {post.userId} </td>
-                <td> {post.id} </td>
-                <td> {post.title} </td>
-                <td>
-                  {reasons.map((reason, idx) => (
-                    <Badge bg="danger" key={`post-${post.id}-reason-${idx}`}>
-                      {' '}
-                      {reason}{' '}
-                    </Badge>
-                  ))}
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </Table>
+      <AnomaliesTable posts={posts} />
       <Pagination totalPages={totalPages} page={page} setPage={setPage} />
     </div>
   );

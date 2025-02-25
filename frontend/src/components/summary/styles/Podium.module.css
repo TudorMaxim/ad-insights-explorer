@@ -1,7 +1,7 @@
 .podium {
     display: flex;
     gap: 12px;
-    align-items: flex-end;
+    justify-content: space-between;
 }
 
 .podiumColumn {

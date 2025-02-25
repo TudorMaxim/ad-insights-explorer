@@ -37,7 +37,9 @@ const Podium: React.FC<PodiumProps> = ({ users, usersWithMostUniqueWords }) => {
               className="fa-solid fa-medal"
               style={{ color: `${colors[idx]}` }}
             ></i>
-            <span>{user.name}</span>
+            <span>
+              {user.name}, User ID: {user.userId}
+            </span>
           </div>
           <div
             className={styles.podiumStand}

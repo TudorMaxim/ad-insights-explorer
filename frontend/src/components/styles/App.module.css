@@ -13,10 +13,9 @@
 
 main {
     padding: 16px 0;
-    background-color: #f7f7f7;
 }
 
 .mainContainer {
     background-color: white;
-    padding-top: 16px;
+    padding: 16px 0;
 }

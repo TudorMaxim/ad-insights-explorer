@@ -28,7 +28,6 @@ const SummaryPanel: React.FC<SummaryPanelProps> = ({ users }) => {
         <Card.Body>
           <Card.Title> Leaderboard </Card.Title>
           <Card.Text>
-            {' '}
             The top 3 users with the most unique words accross all their posts.
           </Card.Text>
           <Podium
@@ -42,8 +41,7 @@ const SummaryPanel: React.FC<SummaryPanelProps> = ({ users }) => {
         <Card.Body>
           <Card.Title> Common Words </Card.Title>
           <Card.Text>
-            {' '}
-            Tag cloud showing common words used by all the users.{' '}
+            Tag cloud showing common words used by all the users.
           </Card.Text>
           <TagCloud tags={summary.mostFrequentWords} />
         </Card.Body>
