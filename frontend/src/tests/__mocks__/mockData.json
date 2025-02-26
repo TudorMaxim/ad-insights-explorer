@@ -1,0 +1,54 @@
+{
+    "users": [
+        { "id": 1, "name": "John Doe" },
+        { "id": 2, "name": "Jane Doe" },
+        { "id": 3, "name": "Mark Doe" }
+    ],
+    "posts": {
+        "totalPages": 1,
+        "posts": [
+            { "id": 1, "userId": 1, "title": "Too Short", "body": ""},
+            { "id": 2, "userId": 1, "title": "Not too short anymore, but duplicate", "body": ""},
+            { "id": 3, "userId": 1, "title": "Not too short anymore, but duplicate", "body": ""},
+            { "id": 4, "userId": 2, "title": "Mock post user 2", "body": ""},
+            { "id": 5, "userId": 2, "title": "asdjkh asl;dk sdjklv asdasdasd", "body": ""},
+            { "id": 6, "userId": 2, "title": "qweqweqwe tryrty yui7uii", "body": ""},
+            { "id": 7, "userId": 3, "title": "Similar title 1", "body": ""},
+            { "id": 8, "userId": 3, "title": "Similar title 2", "body": ""},
+            { "id": 9, "userId": 3, "title": "Similar title 3", "body": ""}
+            
+        ]
+    },
+    "anomalies": {
+        "duplicateTitlePosts": [
+            { "id": 2, "userId": 1, "title": "Not too short anymore, but duplicate", "body": ""},
+            { "id": 3, "userId": 1, "title": "Not too short anymore, but duplicate", "body": ""}
+        ],
+        "shortTitlePosts": [
+            { "id": 1, "userId": 1, "title": "Too Short", "body": ""}
+        ],
+        "usersTooManySimilarTitles": [
+            {
+                "posts": [
+                    { "id": 7, "userId": 3, "title": "Similar title 1", "body": ""},
+                    { "id": 8, "userId": 3, "title": "Similar title 2", "body": ""},
+                    { "id": 9, "userId": 3, "title": "Similar title 3", "body": ""}
+                ],
+                "userId": 3
+            }
+        ]
+    },
+    "summary": {
+        "mostFrequentWords": [
+            { "word": "short", "count": 5 },
+            { "word": "short", "count": 4 },
+            { "word": "short", "count": 3 },
+            { "word": "short", "count": 2 }
+        ],
+        "usersWithMostUniqueWords": [
+            { "userId": 2, "count": 10 },
+            { "userId": 1, "count": 8 },
+            { "userId": 3, "count": 6 }
+        ]
+    }
+}

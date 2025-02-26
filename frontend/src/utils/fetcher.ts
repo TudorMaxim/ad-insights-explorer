@@ -57,7 +57,7 @@ class Fetcher {
       Object.entries(params).filter(([_, value]) => value !== '')
     );
 
-    if (Object.keys(filteredParams).length == 0) {
+    if (Object.keys(filteredParams).length === 0) {
       return urlParams;
     }
 

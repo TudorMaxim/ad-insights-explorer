@@ -6,7 +6,7 @@ import ProtectedMediaIcon from '../assets/ProtectedMediaIcon.webp';
 import { useFetchUsers } from '../hooks';
 import styles from './styles/App.module.css';
 
-function App() {
+const App: React.FC = () => {
   const { users } = useFetchUsers();
   return (
     <>
@@ -32,6 +32,6 @@ function App() {
       </main>
     </>
   );
-}
+};
 
 export default App;

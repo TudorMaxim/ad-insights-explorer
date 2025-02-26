@@ -7,11 +7,11 @@ import LoadingSpinner from '../common/LoadingSpinner';
 import { useFetchSummary } from '../../hooks';
 import styles from './styles/SummaryPage.module.css';
 
-type SummaryPanelProps = {
+type SummaryPageProps = {
   users: User[];
 };
 
-const SummaryPanel: React.FC<SummaryPanelProps> = ({ users }) => {
+const SummaryPage: React.FC<SummaryPageProps> = ({ users }) => {
   const { summary, loading } = useFetchSummary();
 
   if (loading) {
@@ -50,4 +50,4 @@ const SummaryPanel: React.FC<SummaryPanelProps> = ({ users }) => {
   );
 };
 
-export default SummaryPanel;
+export default SummaryPage;

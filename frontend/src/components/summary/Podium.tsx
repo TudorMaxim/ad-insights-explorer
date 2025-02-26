@@ -11,10 +11,12 @@ const getPodium = (users: User[], usersUniqueWords: UserUniqueWords[]) => {
   ];
   for (let i = 0; i < reordered.length; i++) {
     const idx = users.map((user) => user.id).indexOf(reordered[i].userId);
-    podium.push({
-      ...reordered[i],
-      name: users[idx].name,
-    });
+    if (idx > -1) {
+      podium.push({
+        ...reordered[i],
+        name: users[idx].name,
+      });
+    }
   }
   return podium;
 };

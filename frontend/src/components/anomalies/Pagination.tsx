@@ -15,7 +15,7 @@ const Pagination: React.FC<PaginationProps> = ({
   <div className="d-flex justify-content-between align-items-center">
     <Button
       variant="outline-secondary"
-      disabled={page === '' || page == '1'}
+      disabled={page === '' || page === '1'}
       onClick={() => setPage((prev) => `${parseInt(prev) - 1}`)}
     >
       <i className="fa fa-arrow-left" aria-hidden="true"></i>Previous
