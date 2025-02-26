@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { Stack, InputGroup, Form, Button } from 'react-bootstrap';
+import { Stack, InputGroup, Form, Button, Row, Col } from 'react-bootstrap';
 import styles from './styles/AnomaliesPanel.module.css';
 
 type AnomaliesPanelProps = {
@@ -54,32 +54,42 @@ const AnomaliesPanel: React.FC<AnomaliesPanelProps> = ({
           >
             <i className="fa fa-close"></i>
           </span>
-          <InputGroup className={classNames('mb-3', styles.pageSettings)}>
-            <InputGroup.Text>Page</InputGroup.Text>
-            <Form.Control
-              type="number"
-              min={1}
-              placeholder="Check for a specific page"
-              value={page}
-              onChange={(e) => {
-                setPage(e.target.value);
-                if (e.target.value === '') {
-                  setPageSize('');
-                }
-              }}
-            />
-          </InputGroup>
-          <InputGroup className={classNames('mb-3', styles.pageSettings)}>
-            <InputGroup.Text>Page Size</InputGroup.Text>
-            <Form.Control
-              type="number"
-              min={1}
-              placeholder="Change page size"
-              value={pageSize}
-              disabled={page === ''}
-              onChange={(e) => setPageSize(e.target.value)}
-            />
-          </InputGroup>
+
+          <Row className="mb-3">
+            <Col xs={4}>
+              <div className={styles.settingsLabel}> Page </div>
+            </Col>
+            <Col>
+              <Form.Control
+                type="number"
+                min={1}
+                placeholder="Check for a specific page"
+                value={page}
+                onChange={(e) => {
+                  setPage(e.target.value);
+                  if (e.target.value === '') {
+                    setPageSize('');
+                  }
+                }}
+              />
+            </Col>
+          </Row>
+
+          <Row className="mb-3">
+            <Col xs={4}>
+              <div className={styles.settingsLabel}>Page Size</div>
+            </Col>
+            <Col>
+              <Form.Control
+                type="number"
+                min={1}
+                placeholder="Change page size"
+                value={pageSize}
+                disabled={page === ''}
+                onChange={(e) => setPageSize(e.target.value)}
+              />
+            </Col>
+          </Row>
         </Stack>
       )}
     </>

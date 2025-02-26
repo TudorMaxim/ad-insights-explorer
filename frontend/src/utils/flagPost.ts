@@ -7,7 +7,7 @@ export enum FlagingReason {
 }
 
 const flagPost = (post: Post, anomalies: Anomalies | null) => {
-  let reasons: FlagingReason[] = [];
+  const reasons: FlagingReason[] = [];
   if (anomalies === null) {
     return reasons;
   }

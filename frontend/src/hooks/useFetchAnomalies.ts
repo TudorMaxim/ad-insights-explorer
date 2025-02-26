@@ -3,12 +3,12 @@ import { Anomalies } from '../types';
 import { fetcher } from '../utils';
 
 type AnomaliesState = {
-  anomalies: Anomalies;
+  anomalies: Anomalies | null;
   loading: boolean;
   error: string | null;
 };
 
-const useFetchAnomalies = () => {
+const useFetchAnomalies = (): AnomaliesState => {
   const [anomalies, setAnomalies] = React.useState<Anomalies | null>(null);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);

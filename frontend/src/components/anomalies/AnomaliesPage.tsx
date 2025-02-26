@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Badge, Alert } from 'react-bootstrap';
+import { Alert } from 'react-bootstrap';
 import AnomaliesPanel from './AnomaliesPanel';
 import AnomaliesTable from './AnomaliesTable';
 import Pagination from './Pagination';
@@ -10,7 +10,7 @@ import styles from './styles/AnomaliesPage.module.css';
 const AnomaliesPage = () => {
   const [userId, setUserId] = React.useState<string>('');
   const [page, setPage] = React.useState<string>('1');
-  const [pageSize, setPageSize] = React.useState<string>('10');
+  const [pageSize, setPageSize] = React.useState<string>('100');
 
   const { posts, totalPages, loading, error } = useFetchPosts({
     userId,
